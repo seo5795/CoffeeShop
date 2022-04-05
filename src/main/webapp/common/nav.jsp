@@ -54,6 +54,8 @@
 										<li><a href="checkout.jsp">Check Out</a></li>
 										<li><a href="single-product.jsp">Single Product</a></li>
 										<li><a href="cart.jsp">Cart</a></li>
+										<li><a href="login.jsp">Login</a></li>
+										<li><a href="register.jsp">Register</a></li>
 									</ul>
 								</li>
 								<li>
