@@ -10,7 +10,7 @@
 	<meta name="description" content="Responsive Bootstrap4 Shop Template, Created by Imran Hossain from https://imransdesign.com/">
 
 	<!-- title -->
-	<title>Fruitkha</title>
+	<title>커피저장소 | 회원가입</title>
 
 	<!-- favicon -->
 	<link rel="shortcut icon" type="image/png" href="assets/img/favicon.png">
@@ -85,9 +85,9 @@
 						<h3><span class="orange-text">오늘의 커피</span> 회원가입</h3>
 						 <div class="billing-address-form">
 						<form action="register.do" method="post">
-							<p><input type="text" placeholder="ID를 입력하세요" name="mid"></p> 
-							<p><input type="password" placeholder="PW를 입력하세요" name="mpw"> </p>
-							<p><input type="text" placeholder="이름을 입력하세요" name="mname"> </p>
+							<p><input type="text" placeholder="ID를 입력하세요" name="mid" required></p> 
+							<p><input type="password" placeholder="PW를 입력하세요" name="mpw" required> </p>
+							<p><input type="text" placeholder="이름을 입력하세요" name="mname" required> </p>
 							<p><input type = "submit" value="회원가입"></p>
 						</form>
 						</div>

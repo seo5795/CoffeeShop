@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="tag" tagdir="/WEB-INF/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,7 +15,7 @@
 					<div class="main-menu-wrap">
 						<!-- logo -->
 						<div class="site-logo">
-							<a href="main.jsp">
+							<a href="main.do">
 								<img src="assets/img/logo.png" alt="">
 							</a>
 						</div>
@@ -23,22 +24,15 @@
 						<!-- menu start -->
 						<nav class="main-menu">
 							<ul>
-								<li class="current-list-item"><a href="#">Home</a>
-									<ul class="sub-menu">
-										<li><a href="main.jsp">Static Home</a></li>
-										<li><a href="index_2.jsp">Slider Home</a></li>
-									</ul>
-								</li>
+								
 								<li><a href="about.jsp">About</a></li>
 								<li><a href="#">Pages</a>
 									<ul class="sub-menu">
 										<li><a href="404.html">404 page</a></li>
 										<li><a href="about.jsp">About</a></li>
-										<li><a href="cart.jsp">Cart</a></li>
 										<li><a href="checkout.jsp">Check Out</a></li>
 										<li><a href="contact.jsp">Contact</a></li>
 										<li><a href="news.jsp">News</a></li>
-										<li><a href="shop.jsp">Shop</a></li>
 									</ul>
 								</li>
 								<li><a href="news.jsp">News</a>
@@ -48,19 +42,17 @@
 									</ul>
 								</li>
 								<li><a href="contact.jsp">Contact</a></li>
-								<li><a href="shop.jsp">Shop</a>
+								<li><a href="shop.jsp">Coffee</a>
 									<ul class="sub-menu">
-										<li><a href="shop.jsp">Shop</a></li>
-										<li><a href="checkout.jsp">Check Out</a></li>
-										<li><a href="single-product.jsp">Single Product</a></li>
-										<li><a href="cart.jsp">Cart</a></li>
-										<li><a href="login.jsp">Login</a></li>
-										<li><a href="register.jsp">Register</a></li>
+										<li><a href="shop.jsp">Coffee</a></li>
+										<li><a href="checkout.jsp">결제</a></li>		
 									</ul>
 								</li>
+								<!-- 로그인 태그 -->
+								<tag:login />
 								<li>
 									<div class="header-icons">
-										<a class="shopping-cart" href="cart.jsp"><i class="fas fa-shopping-cart"></i></a>
+										<a class="shopping-cart" href="cart.do"><i class="fas fa-shopping-cart"></i></a>
 										<a class="mobile-hide search-bar-icon" href="#"><i class="fas fa-search"></i></a>
 									</div>
 								</li>

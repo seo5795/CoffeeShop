@@ -17,10 +17,10 @@ public class MemberDAO {
 	private ResultSet rs = null;
 	
 	//회원 로그인
-	private final String MEMBER_INSERT="INSERT INTO MEMBER (MID,MPW,MNAME,MPOINT,MRANK)"
-			+" VALUES ((SELECT NVL(MAX(MID),1000)+1 from MEMBER),?,?,?,?)";
+	private final String MEMBER_INSERT="INSERT INTO MEMBER (MID,MPW,MNAME)"
+			+" VALUES (?,?,?)";
 	//회원 가입	
-	private final String MEMBER_SELECTONE="SELECT * FROM COFFEE WHERE MID=?";
+	private final String MEMBER_SELECTONE="SELECT * FROM MEMBER WHERE MID=?";
 	
 	public MemberVO getMember(MemberVO vo) {//로그인
 		MemberVO data = null;
@@ -55,8 +55,7 @@ public class MemberDAO {
 			pstmt.setString(1, vo.getMid());
 			pstmt.setString(2, vo.getMpw());
 			pstmt.setString(3, vo.getMname());
-			pstmt.setInt(4, vo.getMpoint());
-			pstmt.setInt(5, vo.getMrank());
+			
 			
 			pstmt.executeUpdate();
 		}catch (SQLException e) {

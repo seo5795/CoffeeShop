@@ -5,10 +5,10 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<title>로그인 | 오늘의메뉴</title>
+<title>커피저장소 | 로그인</title>
 
-<!-- <link rel="manifest" href="site.webmanifest"> -->
-<link rel="shortcut icon" type="image/x-icon" href="img/favicon-customer.ico">
+<!-- favicon -->
+	<link rel="shortcut icon" type="image/png" href="assets/img/favicon.png">
 <!-- Place favicon.ico in the root directory -->
 
 <!-- Google Web Fonts by JHS -->
@@ -80,13 +80,13 @@
 
          <br>
          <div class="name">
-            <h1>커피쇼핑 로그인</h1>
+            <h1>커피저장소-로그인</h1>
          </div>
 
-         <form id="login" action="login.do" class="input-group">
-            <input type="text" class="input-field" name="memId"
+         <form id="login" action="login.do" class="input-group" method="post">
+            <input type="text" class="input-field" name="mid"
                placeholder="사용자 ID" required> <input
-               type="password" class="input-field" name="memPw" placeholder="비밀번호"
+               type="password" class="input-field" name="mpw" placeholder="비밀번호"
                required>
             <!-- <div>
                <input type="checkbox" class="checkbox">Remember Password

@@ -93,11 +93,11 @@ public class CoffeeDAO {
 			}else if(vo.getCcategory().equals("cname")) {//이름검색
 				System.out.println(1);
 				pstmt=conn.prepareStatement(COFFEE_SELECTALLNAME);
-				pstmt.setString(1, vo.getCname());
+				pstmt.setString(1, vo.getKeyword());
 			}else if(vo.getCcategory().equals("ccountry")){
 				System.out.println(2);
 				pstmt=conn.prepareStatement(COFFEE_SELECTALLCOUNTRY);
-				pstmt.setString(1, vo.getCcountry());
+				pstmt.setString(1, vo.getKeyword());
 			}else if(vo.getCcategory().equals("cprice")) {
 				System.out.println(3);
 				pstmt=conn.prepareStatement(COFFEE_SELECTALLPRICE);

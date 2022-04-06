@@ -1,50 +1,62 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-   pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="Responsive Bootstrap4 Shop Template, Created by Imran Hossain from https://imransdesign.com/">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description"
+	content="Responsive Bootstrap4 Shop Template, Created by Imran Hossain from https://imransdesign.com/">
 
-	<!-- title -->
-	<title>Cart</title>
+<!-- title -->
+<title>커피저장소 | 장바구니</title>
 
-	<!-- favicon -->
-	<link rel="shortcut icon" type="image/png" href="assets/img/favicon.png">
-	<!-- google font -->
-	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
-	<!-- fontawesome -->
-	<link rel="stylesheet" href="assets/css/all.min.css">
-	<!-- bootstrap -->
-	<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-	<!-- owl carousel -->
-	<link rel="stylesheet" href="assets/css/owl.carousel.css">
-	<!-- magnific popup -->
-	<link rel="stylesheet" href="assets/css/magnific-popup.css">
-	<!-- animate css -->
-	<link rel="stylesheet" href="assets/css/animate.css">
-	<!-- mean menu css -->
-	<link rel="stylesheet" href="assets/css/meanmenu.min.css">
-	<!-- main style -->
-	<link rel="stylesheet" href="assets/css/main.css">
-	<!-- responsive -->
-	<link rel="stylesheet" href="assets/css/responsive.css">
-
+<!-- favicon -->
+<link rel="shortcut icon" type="image/png" href="assets/img/favicon.png">
+<!-- google font -->
+<link
+	href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700"
+	rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap"
+	rel="stylesheet">
+<!-- fontawesome -->
+<link rel="stylesheet" href="assets/css/all.min.css">
+<!-- bootstrap -->
+<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+<!-- owl carousel -->
+<link rel="stylesheet" href="assets/css/owl.carousel.css">
+<!-- magnific popup -->
+<link rel="stylesheet" href="assets/css/magnific-popup.css">
+<!-- animate css -->
+<link rel="stylesheet" href="assets/css/animate.css">
+<!-- mean menu css -->
+<link rel="stylesheet" href="assets/css/meanmenu.min.css">
+<!-- main style -->
+<link rel="stylesheet" href="assets/css/main.css">
+<!-- responsive -->
+<link rel="stylesheet" href="assets/css/responsive.css">
+<style type="text/css">
+#select {
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	padding: 10px;
+	width: 100px;
+}
+</style>
 </head>
 <body>
-	
+
 	<!--PreLoader-->
-    <div class="loader">
-        <div class="loader-inner">
-            <div class="circle"></div>
-        </div>
-    </div>
-    <!--PreLoader Ends-->
-	
+	<div class="loader">
+		<div class="loader-inner">
+			<div class="circle"></div>
+		</div>
+	</div>
+	<!--PreLoader Ends-->
+
 	<!-- header -->
 	<jsp:include page="common/nav.jsp" />
 	<!-- end header -->
@@ -52,7 +64,7 @@
 	<!-- search area -->
 	<jsp:include page="common/search.jsp" />
 	<!-- end search arewa -->
-	
+
 	<!-- breadcrumb-section -->
 	<div class="breadcrumb-section breadcrumb-bg">
 		<div class="container">
@@ -86,30 +98,39 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr class="table-body-row">
-									<td class="product-remove"><a href="#"><i class="far fa-window-close"></i></a></td>
-									<td class="product-image"><img src="assets/img/products/product-img-1.jpg" alt=""></td>
-									<td class="product-name">Strawberry</td>
-									<td class="product-price">$85</td>
-									<td class="product-quantity"><input type="number" placeholder="0"></td>
-									<td class="product-total">1</td>
-								</tr>
-								<tr class="table-body-row">
-									<td class="product-remove"><a href="#"><i class="far fa-window-close"></i></a></td>
-									<td class="product-image"><img src="assets/img/products/product-img-2.jpg" alt=""></td>
-									<td class="product-name">Berry</td>
-									<td class="product-price">$70</td>
-									<td class="product-quantity"><input type="number" placeholder="0"></td>
-									<td class="product-total">1</td>
-								</tr>
-								<tr class="table-body-row">
-									<td class="product-remove"><a href="#"><i class="far fa-window-close"></i></a></td>
-									<td class="product-image"><img src="assets/img/products/product-img-3.jpg" alt=""></td>
-									<td class="product-name">Lemon</td>
-									<td class="product-price">$35</td>
-									<td class="product-quantity"><input type="number" placeholder="0"></td>
-									<td class="product-total">1</td>
-								</tr>
+
+								<c:forEach var="cart" items="${cartlist}" varStatus="st">
+									<tr class="table-body-row">
+										<td class="product-remove"><a
+											href="cartRemove.do?cid=${cart.cid}"><i
+												class="far fa-window-close"></i></a></td>
+										<td class="product-image"><img src="${cart.cpic}"
+											alt="상품이미지"></td>
+										<td class="product-name">${cart.cname}</td>
+										<td class="product-price">${cart.cprice}</td>
+										<td class="product-quantity">
+											<form action="cartupdate.do" class="update">
+											<input type="hidden" value="${cart.cid}" name="cid" method="post">
+												<select name="number" onchange="javascript:myListener(this);" id="${st.index}">
+
+													<option value="1"
+														<c:if test="${cart.number == 1}">selected</c:if>>1</option>
+													<option value="2"
+														<c:if test="${cart.number == 2}">selected</c:if>>2</option>
+													<option value="3"
+														<c:if test="${cart.number == 3}">selected</c:if>>3</option>
+													<option value="4"
+														<c:if test="${cart.number == 4}">selected</c:if>>4</option>
+													<option value="5"
+														<c:if test="${cart.number == 5}">selected</c:if>>5</option>
+												</select>
+
+											</form>
+										</td>
+										<td class="product-total">${cart.subtotal}</td>
+									</tr>
+								</c:forEach>
+
 							</tbody>
 						</table>
 					</div>
@@ -127,33 +148,26 @@
 							<tbody>
 								<tr class="total-data">
 									<td><strong>Subtotal: </strong></td>
-									<td>$500</td>
+									<td>${total}원</td>
 								</tr>
 								<tr class="total-data">
 									<td><strong>Shipping: </strong></td>
-									<td>$45</td>
+									<td>3000원</td>
 								</tr>
 								<tr class="total-data">
 									<td><strong>Total: </strong></td>
-									<td>$545</td>
+									<td>${total+3000}원</td>
 								</tr>
 							</tbody>
 						</table>
 						<div class="cart-buttons">
-							<a href="cart.html" class="boxed-btn">Update Cart</a>
-							<a href="checkout.html" class="boxed-btn black">Check Out</a>
+							<a href="checkout.jsp?total=${total}" class="boxed-btn black">결제하기</a>
+							<!-- <button class="boxed-btn black" type="submit" form="checkout">결제하기
+								</button> -->
 						</div>
 					</div>
 
-					<div class="coupon-section">
-						<h3>Apply Coupon</h3>
-						<div class="coupon-form-wrap">
-							<form action="index.html">
-								<p><input type="text" placeholder="Coupon"></p>
-								<p><input type="submit" value="Apply"></p>
-							</form>
-						</div>
-					</div>
+
 				</div>
 			</div>
 		</div>
@@ -191,11 +205,11 @@
 	<!-- footer -->
 	<jsp:include page="common/footer.jsp" />
 	<!-- end footer -->
-	
+
 	<!-- copyright -->
 	<jsp:include page="common/copyright.jsp" />
 	<!-- end copyright -->
-	
+
 	<!-- jquery -->
 	<script src="assets/js/jquery-1.11.3.min.js"></script>
 	<!-- bootstrap -->
@@ -216,6 +230,18 @@
 	<script src="assets/js/sticker.js"></script>
 	<!-- main js -->
 	<script src="assets/js/main.js"></script>
+
+	<script type="text/javascript">
+		var form = document.querySelectorAll(".update");
+		var index = document.querySelectorAll(".index");
+		
+		function myListener(obj) {
+			console.log(form);
+			console.log(obj.id);
+			alert(obj.value);
+			form[obj.id].submit();			
+		};
+	</script>
 
 </body>
 </html>

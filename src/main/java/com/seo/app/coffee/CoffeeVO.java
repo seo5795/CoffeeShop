@@ -10,6 +10,7 @@ public class CoffeeVO {
 	private String ccontent;//커피설명
 	private String cpic;//커피사진
 	private String ccategory;//검색용 멤버변수
+	private String keyword; //검색어
 
 	public int getCprice() {
 		return cprice;
@@ -67,11 +68,24 @@ public class CoffeeVO {
 	public void setCpic(String cpic) {
 		this.cpic = cpic;
 	}
+	
+	
+	public String getKeyword() {
+		return keyword;
+	}
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
+	
+	
 	@Override
 	public String toString() {
 		return "CoffeeVO [cid=" + cid + ", cname=" + cname + ", ccountry=" + ccountry + ", cnum=" + cnum + ", cprice="
-				+ cprice + ", ccontent=" + ccontent + ", cpic=" + cpic + ", ccategory=" + ccategory + "]";
+				+ cprice + ", cprice2=" + cprice2 + ", ccontent=" + ccontent + ", cpic=" + cpic + ", ccategory="
+				+ ccategory + ", keyword=" + keyword + "]";
 	}
+
+
 	
 	
 	

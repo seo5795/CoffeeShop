@@ -10,7 +10,7 @@
 	<meta name="description" content="Responsive Bootstrap4 Shop Template, Created by Imran Hossain from https://imransdesign.com/">
 
 	<!-- title -->
-	<title>Fruitkha</title>
+	<title>커피저장소</title>
 
 	<!-- favicon -->
 	<link rel="shortcut icon" type="image/png" href="assets/img/favicon.png">
@@ -61,7 +61,7 @@
 					<div class="hero-text">
 						<div class="hero-text-tablecell">
 							<p class="subtitle">Fresh & Organic</p>
-							<h1>Delicious Seasonal Fruits</h1>
+							<h1>커피저장소</h1>
 							<div class="hero-btns">
 								<a href="shop.html" class="boxed-btn">Fruit Collection</a>
 								<a href="contact.html" class="bordered-btn">Contact Us</a>
@@ -85,8 +85,8 @@
 							<i class="fas fa-shipping-fast"></i>
 						</div>
 						<div class="content">
-							<h3>Free Shipping</h3>
-							<p>When order over $75</p>
+							<h3>무료배송</h3>
+							<p>을 해드리고 싶습니다</p>
 						</div>
 					</div>
 				</div>
@@ -96,8 +96,8 @@
 							<i class="fas fa-phone-volume"></i>
 						</div>
 						<div class="content">
-							<h3>24/7 Support</h3>
-							<p>Get support all day</p>
+							<h3>직원연결</h3>
+							<p>문의 사항은 언제든지 환영</p>
 						</div>
 					</div>
 				</div>
@@ -107,8 +107,8 @@
 							<i class="fas fa-sync"></i>
 						</div>
 						<div class="content">
-							<h3>Refund</h3>
-							<p>Get refund within 3 days!</p>
+							<h3>환불</h3>
+							<p>3일 이내에 환불가능합니다</p>
 						</div>
 					</div>
 				</div>
@@ -136,11 +136,11 @@
 					<div class="col-lg-4 col-md-6 text-center">
 					<div class="single-product-item">
 						<div class="product-image">
-							<a href="single-product.html"><img src="${cp.cpic}" alt=""></a>
+							<a href="singleProduct.do?cid=${cp.cid}"><img src="${cp.cpic}" alt=""></a>
 						</div>
-						<h3>${cp.cname}</h3>
-						<p class="product-price"><span>Per Kg</span> ${cp.cprice} </p>
-						<a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
+						<a href="singleProduct.do?cid=${cp.cid}"><h3>${cp.cname}</h3></a>
+						<p class="product-price"><span>Per Kg</span> ${cp.cprice}원 </p>
+						<a href="cart.do?cid=${cp.cid}&number=1" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
 					</div>
 				</div>
 				</c:forEach>

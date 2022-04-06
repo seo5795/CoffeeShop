@@ -10,7 +10,7 @@
 	<meta name="description" content="Responsive Bootstrap4 Shop Template, Created by Imran Hossain from https://imransdesign.com/">
 
 	<!-- title -->
-	<title>커피저장소 | 결제정보</title>
+	<title>Check Out</title>
 
 	<!-- favicon -->
 	<link rel="shortcut icon" type="image/png" href="assets/img/favicon.png">
@@ -87,7 +87,7 @@
 						    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
 						      <div class="card-body">
 						        <div class="billing-address-form">
-						        	<form action="buy.do?">
+						        	<form action="index.html">
 						        		<p><input type="text" placeholder="Name"></p>
 						        		<p><input type="email" placeholder="Email"></p>
 						        		<p><input type="text" placeholder="Address"></p>
@@ -149,29 +149,31 @@
 									<td>Product</td>
 									<td>Total</td>
 								</tr>
-								<c:forEach var="cart" items="${cartlist}" varStatus="st">
 								<tr>
-									<td>${cart.cname}</td>
-									<td>${cart.cprice}</td>
+									<td>Strawberry</td>
+									<td>$85.00</td>
 								</tr>
-								</c:forEach>
+								<tr>
+									<td>Berry</td>
+									<td>$70.00</td>
+								</tr>
+								<tr>
+									<td>Lemon</td>
+									<td>$35.00</td>
+								</tr>
 							</tbody>
 							<tbody class="checkout-details">
 								<tr>
-									<td>포인트</td>
-									<td>${mPoint}</td>
+									<td>Subtotal</td>
+									<td>$190</td>
 								</tr>
 								<tr>
-									<td>합계</td>
-									<td>${total}</td>
-								</tr>
-								<tr>
-									<td>배송비</td>
-									<td>3000원</td>
+									<td>Shipping</td>
+									<td>$50</td>
 								</tr>
 								<tr>
 									<td>Total</td>
-									<td>${total+3000}</td>
+									<td>$240</td>
 								</tr>
 							</tbody>
 						</table>
