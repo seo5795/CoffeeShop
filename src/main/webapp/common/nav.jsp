@@ -30,7 +30,6 @@
 									<ul class="sub-menu">
 										<li><a href="404.html">404 page</a></li>
 										<li><a href="about.jsp">About</a></li>
-										<li><a href="checkout.jsp">Check Out</a></li>
 										<li><a href="contact.jsp">Contact</a></li>
 										<li><a href="news.jsp">News</a></li>
 									</ul>
@@ -42,10 +41,10 @@
 									</ul>
 								</li>
 								<li><a href="contact.jsp">Contact</a></li>
-								<li><a href="shop.jsp">Coffee</a>
+								<li><a href="shop.do">Coffee</a>
 									<ul class="sub-menu">
-										<li><a href="shop.jsp">Coffee</a></li>
-										<li><a href="checkout.jsp">결제</a></li>		
+										<li><a href="shop.do">Shop</a></li>
+										<li><a href="checkout.do">결제</a></li>		
 									</ul>
 								</li>
 								<!-- 로그인 태그 -->

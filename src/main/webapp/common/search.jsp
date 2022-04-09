@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,9 +28,10 @@ vertical-align: middle;
 							<div class="search-bar-tablecell">
 
 								<h3>Search For:</h3>
-								<select class="select" name="ccategory">
-									<option value="cname">커피명</option>
-									<option value="ccountry">나라명</option>
+								<select name="ccategory">
+									<c:forEach var="v" items="${conMap}">
+										<option value="${v.value}">${v.key}</option>
+									</c:forEach>
 								</select> <input type="text" placeholder="Keywords" name="keyword">
 								<button type="submit">
 									Search <i class="fas fa-search"></i>

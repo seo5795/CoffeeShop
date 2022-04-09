@@ -49,6 +49,10 @@
 	border-radius: 50px;
 	transition: 0.3s;
 }
+
+a.bordered-btn {
+	color: black;
+}
 </style>
 </head>
 <body>
@@ -97,19 +101,34 @@
 					<div class="single-product-content">
 						<h3>${data.cname}</h3>
 						<p class="single-product-pricing">
-							<span>Per Kg</span> ${data.cprice}
+							<span>Per Kg</span> ${data.cprice}원 <span>재고: ${data.cnum}</span>
 						</p>
-						<strong>${data.ccontent}</strong>
-						<br><br>
+						<strong>${data.ccontent}</strong> <br> <br>
 						<div class="single-product-form">
-							<form action="cart.do?cid=${data.cid}" id="cartFrom" method="post">
-								<input type="number" placeholder="1" name="number" max="5" min="1">
+							<form action="cart.do?cid=${data.cid}" id="cartFrom" name="cart"
+								method="post">
+								<input type="number" placeholder="1" name="number" max="5"
+									min="1" required>
 								<button class="cart-btn" type="submit">
-									<i class="fas fa-shopping-cart"></i> Add to Cart
+									<i class="fas fa-shopping-cart"></i> 장바구니
 								</button>
+								<!-- 로그인 한 회원들만 구독버튼 활성화 -->
+								<c:if test="${mName!=null}">
+									
+									<c:choose>
+										<c:when test="${ sdata.mid == null}">
+											<a href="subscribe.do?cid=${data.cid}&mid=${mId}"
+												class="bordered-btn">구독하기</a>
+										</c:when>
+										<c:otherwise>	
+												<a href="delsubscribe.do?cid=${data.cid}&mid=${mId}"
+													class="bordered-btn">구독취소</a>
+										</c:otherwise>
+									</c:choose>
+								</c:if>
+
 							</form>
-							
-								
+
 						</div>
 					</div>
 				</div>
@@ -125,10 +144,9 @@
 				<div class="col-lg-8 offset-lg-2 text-center">
 					<div class="section-title">
 						<h3>
-							<span class="orange-text">Related</span> Products
+							<span class="orange-text">${data.ccountry}</span> 상품들
 						</h3>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-							Aliquid, fuga quas itaque eveniet beatae optio.</p>
+						<p>고객님이 검색하신 제품과 같은 나라의 제품입니다.</p>
 					</div>
 				</div>
 			</div>
@@ -139,15 +157,15 @@
 					<div class="col-lg-4 col-md-6 text-center">
 						<div class="single-product-item">
 							<div class="product-image">
-								<a href="single-product.jsp"><img src="${cp.cpic}"
+								<a href="singleProduct.do?cid=${cp.cid}"><img src="${cp.cpic}"
 									alt="상품준비중입니다."></a>
 							</div>
 							<h3>${cp.cname}</h3>
 							<p class="product-price">
-								<span>Per Kg</span> ${cp.cprice}
+								<span>Per Kg</span> ${cp.cprice}원
 							</p>
 							<a href="cart.jsp" class="cart-btn"><i
-								class="fas fa-shopping-cart"></i> Add to Cart</a>
+								class="fas fa-shopping-cart"></i> 장바구니</a>
 						</div>
 					</div>
 				</c:forEach>
@@ -213,5 +231,17 @@
 	<!-- main js -->
 	<script src="assets/js/main.js"></script>
 
+	<script type="text/javascript">
+	
+	document.cart.onsubmit=function(){
+		var number=document.querySelector('[name="number"]').value;
+		console.log(number);
+		console.log(${data.cnum})
+		if(number>${data.cnum}){
+			alert('수량이 올바르지 않습니다.');
+			return false;
+		}
+	}
+	</script>
 </body>
 </html>

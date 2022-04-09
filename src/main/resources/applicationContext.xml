@@ -3,9 +3,45 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
-		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd">
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
+
+	<!-- DataSource 설정 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<!-- destroy-method="close": 연결해제 메서드 -->
+		<!-- setter injection -->
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe" />
+		<property name="username" value="kim" />
+		<property name="password" value="1234" />
+	</bean>
+	
+	
+	
+	<!-- 트랜잭션 관리자 클래스 등록 -->
+   <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+      <property name="dataSource" ref="dataSource" />
+   </bean>
+   <!-- 트랜잭션 어드바이스 -->
+   <tx:advice id="txAdvice" transaction-manager="txManager">
+      <tx:attributes>
+         <tx:method name="get*" read-only="true" />
+         <tx:method name="*" />
+      </tx:attributes>
+   </tx:advice>
+   <!-- 위빙처리 -->
+   <aop:config>
+      <aop:pointcut expression="execution(* com.test.app..*(..))" id="txPointcut"/>
+      <aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut" />
+   </aop:config>
+	
+	<!-- JdbcTemplate 생성 -->
+   	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+      	<property name="dataSource" ref="dataSource" />
+   	</bean>
 
 <context:component-scan base-package="com.test.app" />
 <aop:aspectj-autoproxy></aop:aspectj-autoproxy>

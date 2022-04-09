@@ -1,17 +1,26 @@
 package com.seo.app.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.seo.app.coffee.CartVO;
 import com.seo.app.coffee.CoffeeVO;
+import com.seo.app.coffee.Criteria;
+import com.seo.app.coffee.Pagination;
 import com.seo.app.coffee.impl.CoffeeDAO;
+import com.seo.app.subscribe.SubscribeVO;
+import com.seo.app.subscribe.impl.SubscribeDAO;
 
 
 @Controller // ★x100
@@ -20,44 +29,66 @@ import com.seo.app.coffee.impl.CoffeeDAO;
 // 3. 메서드 강제 사라짐!!!
 // 4. 완전한 POJO가 되었다!!!!!
 // 		-> req,res,...가 존재하지않음 => 경량의 객체
+@SessionAttributes("data")
 public class CoffeeController {
-	// 1. Controller 교체
-	// 2. 반환타입의 변경 -> ModelAndView(무엇을 보낼지_정보_datas,data,member,... + 어디로 가야하는지_경로)
+	
+	   @ModelAttribute("conMap") // @RequestMapping이 설정된 메서드보다 먼저 수행됨
+	   public Map<String,String> searchConditionMap() {
+	      Map<String,String> conMap=new HashMap<String,String>();
+	      conMap.put("커피명", "cname");
+	      conMap.put("나라명", "ccountry");
+	      return conMap; // 반환값은 자동으로 Model에 저장 == (model.attribute("conMap",conMap)
+	   }
+	   
+	//---------------------제품목록--------------------------
 	@RequestMapping(value="/main.do")
-	public ModelAndView getCoffeeList(CoffeeVO cvo,CoffeeDAO cdao,ModelAndView mav) {
+	public String getCoffeeList(CoffeeVO cvo,CoffeeDAO cdao,Model model) {
 		System.out.println("FC:CoffeeController-main.do");
 		List<CoffeeVO> datas=cdao.getCoffeeList(cvo);
-		mav.addObject("datas", datas); // Model을 이용하여 전달할 정보를 저장!
-		mav.setViewName("main.jsp");
-		return mav;
+		model.addAttribute("datas", datas); // Model을 이용하여 전달할 정보를 저장!
+		return "main.jsp";
 	}
 	@RequestMapping(value="/singleProduct.do")
-	public ModelAndView singleProduct(CoffeeVO cvo,CoffeeDAO cdao,ModelAndView mav) {
+	public String singleProduct(SubscribeVO svo, SubscribeDAO sdao, CoffeeVO cvo,CoffeeVO vo,CoffeeDAO cdao,Model model, HttpSession session) {
 		System.out.println("FC:CoffeeController-singleProduct.do");
-		CoffeeVO data=cdao.getCoffee(cvo);
-		mav.addObject("data", data); // Model을 이용하여 전달할 정보를 저장!
-		mav.setViewName("single-product.jsp");
-		return mav;
+		//커피 정보
+		cvo=cdao.getCoffee(cvo);
+		model.addAttribute("data", cvo); // Model을 이용하여 전달할 정보를 저장!
+		
+		//동일나라 커피 리스트
+		vo.setCcategory("ccountry");
+		vo.setKeyword(cvo.getCcountry());
+		ArrayList<CoffeeVO> datas=(ArrayList<CoffeeVO>) cdao.getCoffeeList(vo);
+		model.addAttribute("datas", datas);
+		
+		//구독여부
+		svo.setMid((String)session.getAttribute("mId"));
+		System.out.println("1"+svo);
+		svo=sdao.getSubscribe(svo);	
+		model.addAttribute("sdata",svo);
+		System.out.println("2"+svo);
+		
+		return "single-product.jsp";
 	}
 
 	@RequestMapping(value="/shop.do")
-	public ModelAndView shop(CoffeeVO cvo,CoffeeDAO cdao,ModelAndView mav) {
+	public String shop(CoffeeVO cvo,CoffeeDAO cdao,Model model) {
 		System.out.println("FC:CoffeeController-shop.do");
 		List<CoffeeVO> datas=cdao.getCoffeeList(cvo);
-		mav.addObject("datas", datas); // Model을 이용하여 전달할 정보를 저장!
-		mav.setViewName("shop.jsp");
+		model.addAttribute("datas", datas); // Model을 이용하여 전달할 정보를 저장!
 		//selectAll로 해당 나라의 리스트를 보내야함
 
-		return mav;
+		return "shop.jsp";
 	}
-
+	//---------------------제품목록끝--------------------------
+	//---------------------장바구니-----------------------
 	@RequestMapping(value="/cart.do")
-	public ModelAndView cart(CartVO cartvo,CoffeeVO cvo,CoffeeDAO cdao,ModelAndView mav,HttpSession session) {
+	public String cart(CartVO cartvo,CoffeeVO cvo,CoffeeDAO cdao,Model model,HttpSession session) {
 		System.out.println("FC:CoffeeController-cart.do");
 
 		ArrayList<CartVO> cartlist = (ArrayList<CartVO>)session.getAttribute("cartlist");
 		
-		if(cartlist == null) {//검색리스트가 없다면 arrayList생성
+		if(cartlist == null) {//장바구니 리스트가 없다면 arrayList생성
 			cartlist=new ArrayList<CartVO>();
 		}
 		System.out.println("배열사이즈1:"+cartlist.size());
@@ -95,12 +126,11 @@ public class CoffeeController {
 
 		session.setAttribute("cartlist", cartlist); // Model을 이용하여 전달할 정보를 저장!
 		session.setAttribute("total", total);
-		mav.setViewName("cart.jsp");
-		return mav;
+		return "redirect:cart.jsp";
 	}
 	@RequestMapping(value="/cartRemove.do")
 	public String cartRemove(CoffeeVO cvo,CoffeeDAO cdao,HttpSession session) {
-		
+		//장바구니 상품 제거
 		ArrayList<CartVO> cartlist = (ArrayList<CartVO>)session.getAttribute("cartlist");
 		System.out.println("removec-id: "+cvo.getCid());
 		for (int i = 0; i < cartlist.size(); i++) {
@@ -115,8 +145,8 @@ public class CoffeeController {
 	}
 	
 	@RequestMapping(value="/cartupdate.do")
-	public String cartUpdate(CartVO cartvo,CoffeeVO cvo,CoffeeDAO cdao,ModelAndView mav,HttpSession session) {
-		
+	public String cartUpdate(CartVO cartvo,CoffeeVO cvo,CoffeeDAO cdao,HttpSession session) {
+		//장바구니 수령 변경
 		ArrayList<CartVO> cartlist = (ArrayList<CartVO>)session.getAttribute("cartlist");
 		System.out.println("cartvo: "+cartvo.getNumber());
 		System.out.println("cid: "+cvo.getCid());
@@ -129,6 +159,41 @@ public class CoffeeController {
 		System.out.println("cartvo2: "+cartvo.getNumber());
 		//selectAll로 해당 나라의 리스트를 보내야함
 		return "redirect:cart.do";
+	}
+	//----------------------장바구니 끝------------------
+
+	//----------------------구독---------------------------
+		@RequestMapping(value="/subscribe.do")
+		public String subscribe(@ModelAttribute("data")CoffeeVO cvo,SubscribeVO svo,SubscribeDAO sdao,Model model) {
+			//구독하기
+			System.out.println("FC:MemberController-Subscribe.do");
+			
+			sdao.insertSubscribe(svo);		
+			
+			int cid = cvo.getCid();
+			model.addAttribute("cid", cid);
+			return "singleProduct.do";
+		}
+		
+		@RequestMapping(value="/delsubscribe.do")
+		public String delsubscribe(@ModelAttribute("data")CoffeeVO cvo, SubscribeVO svo,SubscribeDAO sdao, Model model) {
+			//구독취소
+			System.out.println("FC:MemberController-delSubscribe.do");
+			
+			sdao.deleteSubscribe(svo);	
+			
+			
+			//@SessionAttributes("data")에 저장해둔 커피 객체사용
+			int cid = cvo.getCid();
+			model.addAttribute("cid", cid);
+			return "singleProduct.do";
+		}
+	
+	
+	//----------------------모든 페이지 검색을 위한 get방식 처리-----------
+	@RequestMapping(value="/checkout.do", method=RequestMethod.GET)
+	public String checkout() {
+		return "redirect:checkout.jsp";
 	}
 
 

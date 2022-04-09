@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.seo.app.common.JDBCUtil;
 import com.seo.app.subscribe.SubscribeVO;
 
-@Repository("SubscribeDAO")
+@Repository("SubscribeDAO1")
 public class SubscribeDAO {
 	private Connection conn = null;
 	private PreparedStatement pstmt = null;
@@ -20,12 +20,13 @@ public class SubscribeDAO {
 
 	//구독 추가
 	private final String SUBSCRIBE_INSERT="INSERT INTO SUBSCRIBE (SID,MID,CID)"
-			+" VALUES ((SELECT NVL(MAX(SID),1000)+1 from SUBSCRIBE),?,?)";
+			+" VALUES ((SELECT NVL(MAX(SID),2000)+1 from SUBSCRIBE),?,?)";
 	//구독취소
 	private final String SUBSCRIBE_DELETE="DELETE FROM SUBSCRIBE WHERE MID=? and CID=?";
 	//회원 구독리스트 보기
 	private final String SUBSCRIBE_SELECTALL="SLECT * FROM SUBSCRIBE WHERE MID = ? ORDER BY SID DESC";
-
+	//회원 구독여부 보기
+	private final String SUBSCRIBE_SELECTONE="SELECT * FROM SUBSCRIBE WHERE MID =? AND CID=?";
 	public boolean insertSubscribe(SubscribeVO vo) {//구독추가
 		conn=JDBCUtil.connect();
 		try {
@@ -66,7 +67,7 @@ public class SubscribeDAO {
 		conn=JDBCUtil.connect();
 		try {
 			pstmt=conn.prepareStatement(SUBSCRIBE_SELECTALL);
-			pstmt.setInt(1, vo.getSid());
+			pstmt.setString(1, vo.getMid());
 			rs=pstmt.executeQuery();
 			while(rs.next()) {
 				SubscribeVO data=new SubscribeVO();
@@ -84,5 +85,30 @@ public class SubscribeDAO {
 			JDBCUtil.disconnect(pstmt, conn);
 		}
 		return datas;
+	}
+	
+	public SubscribeVO getSubscribe(SubscribeVO vo) {
+		SubscribeVO data = null;
+		conn=JDBCUtil.connect();
+		try {
+			pstmt=conn.prepareStatement(SUBSCRIBE_SELECTONE);
+			pstmt.setString(1, vo.getMid());
+			pstmt.setInt(2, vo.getCid());
+			
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				data=new SubscribeVO();
+				data.setSid(rs.getInt("SID"));
+				data.setMid(rs.getString("MID"));
+				data.setCid(rs.getInt("CID"));
+			}
+			rs.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCUtil.disconnect(pstmt, conn);
+		}
+		return data;
 	}
 }

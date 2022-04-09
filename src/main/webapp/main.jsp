@@ -124,23 +124,23 @@
 			<div class="row">
 				<div class="col-lg-8 offset-lg-2 text-center">
 					<div class="section-title">	
-						<h3><span class="orange-text">Our</span> Products</h3>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid, fuga quas itaque eveniet beatae optio.</p>
+						<h3><span class="orange-text">최신</span> 상품들</h3>
+						<p>최근에 들어온 커피들입니다.</p>
 					</div>
 				</div>
 			</div>
 			
 			<!-- 상품리스트 -->
 			<div class="row">
-				<c:forEach var = "cp" items="${datas}">
+				<c:forEach begin="0" end="5" var = "cp" items="${datas}">
 					<div class="col-lg-4 col-md-6 text-center">
 					<div class="single-product-item">
 						<div class="product-image">
-							<a href="singleProduct.do?cid=${cp.cid}"><img src="${cp.cpic}" alt=""></a>
+							<a href="singleProduct.do?cid=${cp.cid}"><img src="${cp.cpic}" alt="상품준비중입니다"></a>
 						</div>
 						<a href="singleProduct.do?cid=${cp.cid}"><h3>${cp.cname}</h3></a>
 						<p class="product-price"><span>Per Kg</span> ${cp.cprice}원 </p>
-						<a href="cart.do?cid=${cp.cid}&number=1" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
+						<a href="cart.do?cid=${cp.cid}&number=1" class="cart-btn"><i class="fas fa-shopping-cart"></i> 장바구니</a>
 					</div>
 				</div>
 				</c:forEach>
@@ -149,36 +149,7 @@
 	</div>
 	<!-- end product section -->
 
-	<!-- cart banner section -->
-	<section class="cart-banner pt-100 pb-100">
-    	<div class="container">
-        	<div class="row clearfix">
-            	<!--Image Column-->
-            	<div class="image-column col-lg-6">
-                	<div class="image">
-                    	<div class="price-box">
-                        	<div class="inner-price">
-                                <span class="price">
-                                    <strong>30%</strong> <br> off per kg
-                                </span>
-                            </div>
-                        </div>
-                    	<img src="assets/img/a.jpg" alt="">
-                    </div>
-                </div>
-                <!--Content Column-->
-                <div class="content-column col-lg-6">
-					<h3><span class="orange-text">Deal</span> of the month</h3>
-                    <h4>Hikan Strwaberry</h4>
-                    <div class="text">Quisquam minus maiores repudiandae nobis, minima saepe id, fugit ullam similique! Beatae, minima quisquam molestias facere ea. Perspiciatis unde omnis iste natus error sit voluptatem accusant</div>
-                    <!--Countdown Timer-->
-                    <div class="time-counter"><div class="time-countdown clearfix" data-countdown="2020/2/01"><div class="counter-column"><div class="inner"><span class="count">00</span>Days</div></div> <div class="counter-column"><div class="inner"><span class="count">00</span>Hours</div></div>  <div class="counter-column"><div class="inner"><span class="count">00</span>Mins</div></div>  <div class="counter-column"><div class="inner"><span class="count">00</span>Secs</div></div></div></div>
-                	<a href="cart.html" class="cart-btn mt-3"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- end cart banner section -->
+	
 
 	<!-- testimonail-section -->
 	<div class="testimonail-section mt-150 mb-150">

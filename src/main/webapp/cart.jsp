@@ -161,7 +161,7 @@
 							</tbody>
 						</table>
 						<div class="cart-buttons">
-							<a href="checkout.jsp?total=${total}" class="boxed-btn black">결제하기</a>
+							<a href="checkout.jsp?total=${total}" class="boxed-btn black" onclick="f1();">결제하기</a>
 							<!-- <button class="boxed-btn black" type="submit" form="checkout">결제하기
 								</button> -->
 						</div>
@@ -241,6 +241,16 @@
 			alert(obj.value);
 			form[obj.id].submit();			
 		};
+		
+		var checkout=document.querySelector("#check");
+		function f1(){
+			var mname="${mName}";
+			
+			if(mname==null||mname==""){
+				alert('로그인 후 이용해 주세요!');
+				event.preventDefault();
+			}
+		}
 	</script>
 
 </body>
