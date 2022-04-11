@@ -40,10 +40,15 @@ public class CoffeeDAO2 {
 	private final String COFFEE_SELECTALLPRICE = "SELECT * FROM COFFEE"
 			+" WHERE CPRICE>=? AND CPRICE<=? ORDER BY CID DESC";
 
-	public void insertCoffee(CoffeeVO vo) {//커피 상품 추가
+	public boolean insertCoffee(CoffeeVO vo) {//커피 상품 추가
 		System.out.println("CoffeeDAO2: insertCoffee() 호출됨");
 		Object[] args= {vo.getCname(),vo.getCcountry(),vo.getCnum(),vo.getCprice(),vo.getCcontent(),vo.getCpic()};
-		jdbcTemplate.update(COFFEE_INSERT, args);
+		if(jdbcTemplate.update(COFFEE_INSERT, args)>0) {
+			return true;
+		}else{
+			return false;
+		}
+		
 	}
 
 	public CoffeeVO getCoffee(CoffeeVO vo) {//커피상세보기

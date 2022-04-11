@@ -7,20 +7,25 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.seo.app.coffee.CartVO;
+import com.seo.app.member.MemberService;
 import com.seo.app.member.MemberVO;
 import com.seo.app.member.impl.MemberDAO;
+import com.seo.app.subscribe.SubscribeService;
 import com.seo.app.subscribe.SubscribeVO;
 import com.seo.app.subscribe.impl.SubscribeDAO;
 
 @Controller
 public class MemberController {
-
+	@Autowired
+	private MemberService memberService;
+	
 	@ModelAttribute("conMap") // @RequestMapping이 설정된 메서드보다 먼저 수행됨
 	   public Map<String,String> searchConditionMap() {
 	      Map<String,String> conMap=new HashMap<String,String>();
@@ -31,10 +36,10 @@ public class MemberController {
 	
 	
 	@RequestMapping(value="/login.do",method=RequestMethod.POST)
-	public String login(MemberVO mvo,MemberDAO mdao,HttpSession session) {
+	public String login(MemberVO mvo,HttpSession session) {
 		//로그인
 		System.out.println("FC:MemberController-login.do");
-		mvo=mdao.getMember(mvo);
+		mvo=memberService.getMember(mvo);
 		if(mvo==null){
 			return "login.jsp";
 		}
@@ -55,38 +60,34 @@ public class MemberController {
 		return "redirect:main.do";
 	}
 	@RequestMapping(value="/register.do", method=RequestMethod.POST)
-	public String register(MemberVO mvo,MemberDAO mdao) {
+	public String register(MemberVO mvo) {
 		//회원가입
 		System.out.println("FC:MemberController-register.do");
 		
-		if(!mdao.insertMember(mvo)){
+		if(!memberService.insertMember(mvo)){
 			return "register.jsp";
 		}		
 		return "redirect:login.jsp";
 	}
 	
 	@RequestMapping(value="/pay.do", method=RequestMethod.POST)
-	public String pay(MemberVO mvo,MemberDAO mdao,HttpSession session) {
+	public String pay(MemberVO mvo,HttpSession session) {
 		//결제
 		System.out.println("FC:MemberController-pay.do");
 		//제고 update
 		
 		ArrayList<CartVO> cartlist = (ArrayList<CartVO>) session.getAttribute("cartlist");
-		mvo.setMid((String)session.getAttribute("mId"));
-		
-		
+		mvo.setMid((String)session.getAttribute("mId"));		
 //
 //		for (int i = 0; i < cartlist.size(); i++) {
 //			System.out.println(cartlist.get(i));
 //		}
 		
-		
-		
 		//결제
 		//장바구니, 전체가격 session삭제
 		int mPoint = (Integer)session.getAttribute("mPoint")  - (Integer) session.getAttribute("total");
 		
-		if(!mdao.pay(mvo, cartlist)){
+		if(!memberService.pay(mvo, cartlist)){
 			return "cart.do";
 		}else {
 			session.setAttribute("mPoint", mPoint);

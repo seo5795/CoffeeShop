@@ -12,7 +12,7 @@ import com.seo.app.coffee.CoffeeVO;
 public class CoffeeServiceImpl implements CoffeeService{
 	
 	@Autowired
-	private CoffeeDAO coffeeDAO;
+	private CoffeeDAO2 coffeeDAO;
 	@Override
 	public boolean insertCoffee(CoffeeVO vo) {
 		return coffeeDAO.insertCoffee(vo);

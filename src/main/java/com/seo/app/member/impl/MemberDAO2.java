@@ -4,12 +4,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import com.seo.app.coffee.CartVO;
 import com.seo.app.coffee.CoffeeVO;
 import com.seo.app.common.JDBCUtil;
 import com.seo.app.member.MemberVO;
@@ -31,9 +33,17 @@ public class MemberDAO2 {
 		return jdbcTemplate.queryForObject(MEMBER_SELECTONE, args,new MemberRowMapper());
 	}
 
-	public void insertMember(MemberVO vo) {//회원가입
+	public boolean insertMember(MemberVO vo) {//회원가입
 		Object[] args = {vo.getMid(),vo.getMpw(),vo.getMname()};
-		jdbcTemplate.update(MEMBER_INSERT,args);
+		if(jdbcTemplate.update(MEMBER_INSERT,args)>0) {
+			return true;
+		}
+		return false;
+	}
+
+	public boolean pay(MemberVO vo, List<CartVO> cartlist) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

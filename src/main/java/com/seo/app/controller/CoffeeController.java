@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,10 +16,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.seo.app.coffee.CartVO;
+import com.seo.app.coffee.CoffeeService;
 import com.seo.app.coffee.CoffeeVO;
-import com.seo.app.coffee.Criteria;
-import com.seo.app.coffee.Pagination;
 import com.seo.app.coffee.impl.CoffeeDAO;
+import com.seo.app.subscribe.SubscribeService;
 import com.seo.app.subscribe.SubscribeVO;
 import com.seo.app.subscribe.impl.SubscribeDAO;
 
@@ -32,6 +33,11 @@ import com.seo.app.subscribe.impl.SubscribeDAO;
 @SessionAttributes("data")
 public class CoffeeController {
 	
+	@Autowired
+	private CoffeeService coffeeService;
+	@Autowired
+	private SubscribeService subscribeService;
+	
 	   @ModelAttribute("conMap") // @RequestMapping이 설정된 메서드보다 먼저 수행됨
 	   public Map<String,String> searchConditionMap() {
 	      Map<String,String> conMap=new HashMap<String,String>();
@@ -42,29 +48,29 @@ public class CoffeeController {
 	   
 	//---------------------제품목록--------------------------
 	@RequestMapping(value="/main.do")
-	public String getCoffeeList(CoffeeVO cvo,CoffeeDAO cdao,Model model) {
+	public String getCoffeeList(CoffeeVO cvo,Model model) {
 		System.out.println("FC:CoffeeController-main.do");
-		List<CoffeeVO> datas=cdao.getCoffeeList(cvo);
+		List<CoffeeVO> datas=coffeeService.getCoffeeList(cvo);
 		model.addAttribute("datas", datas); // Model을 이용하여 전달할 정보를 저장!
 		return "main.jsp";
 	}
 	@RequestMapping(value="/singleProduct.do")
-	public String singleProduct(SubscribeVO svo, SubscribeDAO sdao, CoffeeVO cvo,CoffeeVO vo,CoffeeDAO cdao,Model model, HttpSession session) {
+	public String singleProduct(SubscribeVO svo, CoffeeVO cvo,CoffeeVO vo,Model model, HttpSession session) {
 		System.out.println("FC:CoffeeController-singleProduct.do");
 		//커피 정보
-		cvo=cdao.getCoffee(cvo);
+		cvo=coffeeService.getCoffee(cvo);
 		model.addAttribute("data", cvo); // Model을 이용하여 전달할 정보를 저장!
 		
 		//동일나라 커피 리스트
 		vo.setCcategory("ccountry");
 		vo.setKeyword(cvo.getCcountry());
-		ArrayList<CoffeeVO> datas=(ArrayList<CoffeeVO>) cdao.getCoffeeList(vo);
+		ArrayList<CoffeeVO> datas=(ArrayList<CoffeeVO>) coffeeService.getCoffeeList(vo);
 		model.addAttribute("datas", datas);
 		
 		//구독여부
 		svo.setMid((String)session.getAttribute("mId"));
 		System.out.println("1"+svo);
-		svo=sdao.getSubscribe(svo);	
+		svo=subscribeService.getSubscribe(svo);	
 		model.addAttribute("sdata",svo);
 		System.out.println("2"+svo);
 		
@@ -72,9 +78,9 @@ public class CoffeeController {
 	}
 
 	@RequestMapping(value="/shop.do")
-	public String shop(CoffeeVO cvo,CoffeeDAO cdao,Model model) {
+	public String shop(CoffeeVO cvo,Model model) {
 		System.out.println("FC:CoffeeController-shop.do");
-		List<CoffeeVO> datas=cdao.getCoffeeList(cvo);
+		List<CoffeeVO> datas=coffeeService.getCoffeeList(cvo);
 		model.addAttribute("datas", datas); // Model을 이용하여 전달할 정보를 저장!
 		//selectAll로 해당 나라의 리스트를 보내야함
 
@@ -83,7 +89,7 @@ public class CoffeeController {
 	//---------------------제품목록끝--------------------------
 	//---------------------장바구니-----------------------
 	@RequestMapping(value="/cart.do")
-	public String cart(CartVO cartvo,CoffeeVO cvo,CoffeeDAO cdao,Model model,HttpSession session) {
+	public String cart(CartVO cartvo,CoffeeVO cvo,Model model,HttpSession session) {
 		System.out.println("FC:CoffeeController-cart.do");
 
 		ArrayList<CartVO> cartlist = (ArrayList<CartVO>)session.getAttribute("cartlist");
@@ -104,7 +110,7 @@ public class CoffeeController {
 
 		if(cvo.getCid()!=0) {
 			//cid값을 받아온다면 			
-			cvo=cdao.getCoffee(cvo);//장바구니에 추가할 커피 객체
+			cvo=coffeeService.getCoffee(cvo);//장바구니에 추가할 커피 객체
 			cartvo.setCid(cvo.getCid());
 			cartvo.setCname(cvo.getCname());//커피객체의 커피재고에 장바구니 커피 갯수 set(바꿔야함)
 			cartvo.setCcountry(cvo.getCcountry());
@@ -129,7 +135,7 @@ public class CoffeeController {
 		return "redirect:cart.jsp";
 	}
 	@RequestMapping(value="/cartRemove.do")
-	public String cartRemove(CoffeeVO cvo,CoffeeDAO cdao,HttpSession session) {
+	public String cartRemove(CoffeeVO cvo,HttpSession session) {
 		//장바구니 상품 제거
 		ArrayList<CartVO> cartlist = (ArrayList<CartVO>)session.getAttribute("cartlist");
 		System.out.println("removec-id: "+cvo.getCid());
@@ -145,7 +151,7 @@ public class CoffeeController {
 	}
 	
 	@RequestMapping(value="/cartupdate.do")
-	public String cartUpdate(CartVO cartvo,CoffeeVO cvo,CoffeeDAO cdao,HttpSession session) {
+	public String cartUpdate(CartVO cartvo,CoffeeVO cvo,HttpSession session) {
 		//장바구니 수령 변경
 		ArrayList<CartVO> cartlist = (ArrayList<CartVO>)session.getAttribute("cartlist");
 		System.out.println("cartvo: "+cartvo.getNumber());
@@ -164,11 +170,11 @@ public class CoffeeController {
 
 	//----------------------구독---------------------------
 		@RequestMapping(value="/subscribe.do")
-		public String subscribe(@ModelAttribute("data")CoffeeVO cvo,SubscribeVO svo,SubscribeDAO sdao,Model model) {
+		public String subscribe(@ModelAttribute("data")CoffeeVO cvo,SubscribeVO svo,Model model) {
 			//구독하기
 			System.out.println("FC:MemberController-Subscribe.do");
 			
-			sdao.insertSubscribe(svo);		
+			subscribeService.insertSubscribe(svo);		
 			
 			int cid = cvo.getCid();
 			model.addAttribute("cid", cid);
@@ -176,11 +182,11 @@ public class CoffeeController {
 		}
 		
 		@RequestMapping(value="/delsubscribe.do")
-		public String delsubscribe(@ModelAttribute("data")CoffeeVO cvo, SubscribeVO svo,SubscribeDAO sdao, Model model) {
+		public String delsubscribe(@ModelAttribute("data")CoffeeVO cvo, SubscribeVO svo, Model model) {
 			//구독취소
 			System.out.println("FC:MemberController-delSubscribe.do");
 			
-			sdao.deleteSubscribe(svo);	
+			subscribeService.deleteSubscribe(svo);	
 			
 			
 			//@SessionAttributes("data")에 저장해둔 커피 객체사용
