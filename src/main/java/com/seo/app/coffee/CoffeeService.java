@@ -9,4 +9,5 @@ public interface CoffeeService {
 	int getBoardListCnt(CoffeeVO vo);
 	//List<CoffeeVO> getCoffeePage(int pageNum, int amount);
 	List<CoffeeVO> getCoffeeList(CoffeeVO cvo, PageVO pvo);
+	boolean insertBoard(CoffeeVO cvo);
 }

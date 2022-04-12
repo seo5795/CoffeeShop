@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -144,45 +144,36 @@
 				</c:choose>
 
 			</div>
-			
-			<!-- 2. 이전버튼 활성화 여부 -->
-			
-				<div class="row">
+
+
+
+			<div class="row">
 				<div class="col-lg-12 text-center">
 					<div class="pagination-wrap">
 						<ul>
-	               				<c:if test="${pageVO.prev }">
-                        			<li><a href="shop.do?pageNum=${pageVO.startPage - 1 }&amount=${pageVO.amount}&ccategory=${cvo.ccategory}&keyword=${cvo.keyword}&cprice=${cvo.cprice}&cprice2=${cvo.cprice2}">이전</a></li>
-								</c:if>
-								                        		
-                        		<!-- 1. 페이지번호 처리 -->
-                        		<c:forEach var="num" begin="${pageVO.startPage }" end="${pageVO.endPage }">
-	                        		<li  class="${pageVO.pageNum eq num ? 'active' : '' }">
-	                        		<a href="shop.do?pageNum=${num}&amount=${pageVO.amount}&ccategory=${cvo.ccategory}&keyword=${cvo.keyword}&cprice=${cvo.cprice}&cprice2=${cvo.cprice2}">${num}</a></li>
-                        		</c:forEach>
-                        		
-                        		<!-- 3. 다음버튼 활성화 여부 -->
-                        		<c:if test="${pageVO.next }">
-                        			<li><a href="shop.do?pageNum=${pageVO.endPage + 1 }&amount=${pageVO.amount}&ccategory=${cvo.ccategory}&keyword=${cvo.keyword}&cprice=${cvo.cprice}&cprice2=${cvo.cprice2}">다음</a></li>
-                        		</c:if>
-                        			</ul>
-					</div>
-				</div>
-			</div>
-			
-			<!-- <div class="row">
-				<div class="col-lg-12 text-center">
-					<div class="pagination-wrap">
-						<ul>
-							<li><a href="#">Prev</a></li>
-							<li><a href="#">1</a></li>
-							<li><a class="active" href="#">2</a></li>
-							<li><a href="#">3</a></li>
-							<li><a href="#">Next</a></li>
+							<!-- 1. 이전 버튼 활성화 -->
+							<c:if test="${pageVO.prev }">
+								<li><a
+									href="shop.do?pageNum=${pageVO.startPage - 1 }&amount=${pageVO.amount}&ccategory=${cvo.ccategory}&keyword=${cvo.keyword}&cprice=${cvo.cprice}&cprice2=${cvo.cprice2}">이전</a></li>
+							</c:if>
+
+							<!-- 2. 페이지번호 처리 -->
+							<c:forEach var="num" begin="${pageVO.startPage }"
+								end="${pageVO.endPage }">
+								<li class="${pageVO.pageNum eq num ? 'active' : '' }"><a
+									href="shop.do?pageNum=${num}&amount=${pageVO.amount}&ccategory=${cvo.ccategory}&keyword=${cvo.keyword}&cprice=${cvo.cprice}&cprice2=${cvo.cprice2}">${num}</a></li>
+							</c:forEach>
+
+							<!-- 3. 다음버튼 활성화 여부 -->
+							<c:if test="${pageVO.next }">
+								<li><a
+									href="shop.do?pageNum=${pageVO.endPage + 1 }&amount=${pageVO.amount}&ccategory=${cvo.ccategory}&keyword=${cvo.keyword}&cprice=${cvo.cprice}&cprice2=${cvo.cprice2}">다음</a></li>
+							</c:if>
 						</ul>
 					</div>
 				</div>
-			</div> -->
+			</div>
+
 		</div>
 	</div>
 	<!-- end products -->

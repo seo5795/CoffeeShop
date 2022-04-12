@@ -10,7 +10,7 @@
 	<meta name="description" content="Responsive Bootstrap4 Shop Template, Created by Imran Hossain from https://imransdesign.com/">
 
 	<!-- title -->
-	<title>커피저장소 | 회원가입</title>
+	<title>커피저장소 | 상품등록</title>
 
 	<!-- favicon -->
 	<link rel="shortcut icon" type="image/png" href="assets/img/favicon.png">
@@ -61,11 +61,7 @@
 					<div class="hero-text">
 						<div class="hero-text-tablecell">
 							<p class="subtitle">Fresh & Organic</p>
-							<h1>회원가입</h1>
-							<div class="hero-btns">
-								<a href="shop.html" class="boxed-btn">Fruit Collection</a>
-								<a href="contact.html" class="bordered-btn">Contact Us</a>
-							</div>
+							<h1>상품등록</h1>
 						</div>
 					</div>
 				</div>
@@ -82,12 +78,15 @@
 			<div class="row">
 				<div class="col-lg-8 offset-lg-2 text-center">
 					<div class="section-title">	
-						<h3><span class="orange-text">커피저장소</span> 회원가입</h3>
+						<h3><span class="orange-text">커피저장소</span> 상품등록</h3>
 						 <div class="billing-address-form">
-						<form action="register.do" method="post">
-							<p><input type="text" placeholder="ID를 입력하세요" name="mid" required></p> 
-							<p><input type="password" placeholder="PW를 입력하세요" name="mpw" required> </p>
-							<p><input type="text" placeholder="이름을 입력하세요" name="mname" required> </p>
+						<form action="insertCoffee.do" method="post" enctype="multipart/form-data">
+							<p><input type="text" placeholder="이름을 입력해주세요" name="cname" required></p> 
+							<p><input type="text" placeholder="나라를 입력해주세요" name="ccountry" required> </p>
+							<p><input type="number" placeholder="재고를 입력해주세요" name="cnum" required> </p>
+							<p><input type="number" placeholder="가격을 입력해주세요" name="cprice" required> </p>
+							<p><input type="file" placeholder="제품 사진을 입력해주세요" name="uploadFile"> </p>
+							<p><textarea name="ccontent" cols="30" rows="5" placeholder="상품설명을 입력해주세요"></textarea></p>
 							<p><input type = "submit" value="회원가입"></p>
 						</form>
 						</div>

@@ -1,5 +1,7 @@
 package com.seo.app.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.seo.app.coffee.CartVO;
 import com.seo.app.coffee.CoffeeService;
@@ -58,6 +61,27 @@ public class CoffeeController {
 		List<CoffeeVO> datas=coffeeService.getCoffeeList(cvo, pvo);
 		model.addAttribute("datas", datas); // Model을 이용하여 전달할 정보를 저장!
 		return "main.jsp";
+	}
+	@RequestMapping(value="/insertCoffee.do")
+	public String insertCoffee(CoffeeVO cvo) throws IllegalStateException, IOException {
+		System.out.println("FC:CoffeeController-insertCoffee.do");
+		
+		// [파일업로드 로직]
+				MultipartFile uploadFile = cvo.getUploadFile();
+				if(!uploadFile.isEmpty()) { //정보가 들어있다면
+					String name = uploadFile.getOriginalFilename();
+					System.out.println("파일명: " + name);
+					uploadFile.transferTo(new File("C:\\SEO\\workspace3\\coffee\\src\\main\\webapp\\assets\\coffee\\"+name));
+					cvo.setCpic("assets/coffee/"+name);																			// 주의▲
+					//File -> io 임포트
+				}
+				else { // 정보가 비어있다면(null)
+					cvo.setCpic("assets/coffee/default.jpg");
+				}
+				coffeeService.insertBoard(cvo);
+				return "redirect:main.do"; 
+
+
 	}
 	@RequestMapping(value="/singleProduct.do")
 	public String singleProduct(SubscribeVO svo, CoffeeVO cvo,CoffeeVO vo,PageVO pvo,Model model, HttpSession session) {

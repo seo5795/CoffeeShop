@@ -42,11 +42,9 @@ public class CoffeeDAO {
 			+" (SELECT * FROM COFFEE WHERE CCOUNTRY LIKE '%'||?||'%' ORDER by CID desc)"
 			+ " a ) WHERE rnum between ?+1 and ?";
 	//커피 가격 검색
-	private final String COFFEE_SELECTALLPRICE1 = "SELECT * FROM COFFEE"
-			+" WHERE CPRICE>=? AND CPRICE<=? ORDER BY CPRICE DESC";
 	private final String COFFEE_SELECTALLPRICE = "SELECT * FROM" 
 			+" (SELECT a.*, rownum RNUM FROM"
-			+" (SELECT * FROM COFFEE WHERE CPRICE>=? AND CPRICE<=?  ORDER BY CPRICE DESC)"
+			+" (SELECT * FROM COFFEE WHERE CPRICE>=? AND CPRICE<=? ORDER BY CPRICE DESC)"
 			+ " a ) WHERE rnum between ?+1 and ?";
 	//구독 커피 검색
 	private final String COFFEE_SELECTJOIN = "SELECT A.CID, A.CNAME, A.CCOUNTRY,A.CNUM,A.CPRICE,A.CCONTENT,A.CPIC" 
@@ -55,7 +53,7 @@ public class CoffeeDAO {
 
 	//=============================================================
 	//페이징
-	private final String COFFEE_PAGINATION= "SELECT * FROM (SELECT ROWNUM AS RNUM, A.* FROM COFFEE A)"
+	private final String COFFEE_PAGINATION= "SELECT * FROM (SELECT ROWNUM AS RNUM, A.* FROM COFFEE A ORDER BY CID DESC)"
 			+" WHERE RNUM BETWEEN ? + 1  AND ?";
 	private final String COFFEELIST_CNT ="SELECT count(*) as listCnt FROM COFFEE";
 

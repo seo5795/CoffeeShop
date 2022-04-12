@@ -1,5 +1,7 @@
 package com.seo.app.coffee;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class CoffeeVO {
 	private int cid;//pk
 	private String cname;//이름
@@ -9,9 +11,17 @@ public class CoffeeVO {
 	private int cprice2;//커피 검색용
 	private String ccontent;//커피설명
 	private String cpic;//커피사진
+	private MultipartFile uploadFile;//커피사진 저장경로
 	private String ccategory;//검색용 멤버변수
 	private String keyword; //검색어
 
+	
+	public MultipartFile getUploadFile() {
+		return uploadFile;
+	}
+	public void setUploadFile(MultipartFile uploadFile) {
+		this.uploadFile = uploadFile;
+	}
 	public int getCprice() {
 		return cprice;
 	}

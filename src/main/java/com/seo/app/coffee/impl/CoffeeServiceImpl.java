@@ -49,6 +49,14 @@ public class CoffeeServiceImpl implements CoffeeService{
 		return coffeeDAO.getCoffee(vo);
 	}
 
+
+
+	@Override
+	public boolean insertBoard(CoffeeVO cvo) {
+		// TODO Auto-generated method stub
+		return coffeeDAO.insertCoffee(cvo);
+	}
+
 //	@Override
 //	public List<CoffeeVO> getCoffeePage(int pageNum, int amount) {
 //		// TODO Auto-generated method stub
