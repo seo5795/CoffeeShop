@@ -11,7 +11,7 @@ import com.seo.app.subscribe.SubscribeVO;
 @Service("subscribeService")
 public class SubscribeServiceImpl implements SubscribeService{
 	@Autowired
-	private SubscribeDAO2 subscribeDAO;
+	private SubscribeDAO subscribeDAO;
 	
 	@Override
 	public boolean insertSubscribe(SubscribeVO vo) {//구독추가

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import com.seo.app.coffee.CartVO;
 import com.seo.app.coffee.CoffeeService;
 import com.seo.app.coffee.CoffeeVO;
+import com.seo.app.coffee.PageVO;
 import com.seo.app.coffee.impl.CoffeeDAO;
 import com.seo.app.subscribe.SubscribeService;
 import com.seo.app.subscribe.SubscribeVO;
@@ -48,14 +49,18 @@ public class CoffeeController {
 	   
 	//---------------------제품목록--------------------------
 	@RequestMapping(value="/main.do")
-	public String getCoffeeList(CoffeeVO cvo,Model model) {
+	public String getCoffeeList(CoffeeVO cvo,PageVO pvo,Model model) {
 		System.out.println("FC:CoffeeController-main.do");
-		List<CoffeeVO> datas=coffeeService.getCoffeeList(cvo);
+		
+		pvo.setPageNum(1);
+		pvo.setAmount(6);
+		
+		List<CoffeeVO> datas=coffeeService.getCoffeeList(cvo, pvo);
 		model.addAttribute("datas", datas); // Model을 이용하여 전달할 정보를 저장!
 		return "main.jsp";
 	}
 	@RequestMapping(value="/singleProduct.do")
-	public String singleProduct(SubscribeVO svo, CoffeeVO cvo,CoffeeVO vo,Model model, HttpSession session) {
+	public String singleProduct(SubscribeVO svo, CoffeeVO cvo,CoffeeVO vo,PageVO pvo,Model model, HttpSession session) {
 		System.out.println("FC:CoffeeController-singleProduct.do");
 		//커피 정보
 		cvo=coffeeService.getCoffee(cvo);
@@ -64,7 +69,7 @@ public class CoffeeController {
 		//동일나라 커피 리스트
 		vo.setCcategory("ccountry");
 		vo.setKeyword(cvo.getCcountry());
-		ArrayList<CoffeeVO> datas=(ArrayList<CoffeeVO>) coffeeService.getCoffeeList(vo);
+		ArrayList<CoffeeVO> datas=(ArrayList<CoffeeVO>) coffeeService.getCoffeeList(cvo,pvo);
 		model.addAttribute("datas", datas);
 		
 		//구독여부
@@ -78,10 +83,39 @@ public class CoffeeController {
 	}
 
 	@RequestMapping(value="/shop.do")
-	public String shop(CoffeeVO cvo,Model model) {
+	public String shop(CoffeeVO cvo,Model model,PageVO pvo) {
 		System.out.println("FC:CoffeeController-shop.do");
-		List<CoffeeVO> datas=coffeeService.getCoffeeList(cvo);
-		model.addAttribute("datas", datas); // Model을 이용하여 전달할 정보를 저장!
+		
+		// 1. 화면전환 시에 조회하는 페이지번호 and 화면에 그려질 데이터개수 2개를 전달받음
+				
+//				if(pvo.getPageNum() != 0 && pvo.getAmount() != 0) {
+//					pageNum = pvo.getPageNum();
+//					amount = pvo.getAmount();
+//				}
+				
+				if(pvo.getPageNum() == 0 || pvo.getAmount() == 0) {
+					pvo.setPageNum(1);
+					pvo.setAmount(3);
+				}
+		
+				System.out.println("shop.do:"+cvo.getKeyword());
+				System.out.println("shop.do:"+cvo.getCcategory());
+				
+				
+				// 2. pageVO생성
+				List<CoffeeVO> list = coffeeService.getCoffeeList(cvo,pvo);
+				int total = coffeeService.getBoardListCnt(cvo); // 전체게시글수
+				PageVO pageVO = new PageVO(pvo.getPageNum(), pvo.getAmount(), total);
+				
+				// 3. 페이지네이션을 화면에 전달
+				model.addAttribute("pageVO", pageVO);
+				//검색정보를 통한 페이징처리를 위해 coffee객체 저장
+				model.addAttribute("cvo",cvo);
+				// 화면에 가지고 나갈 list를 request에 저장 !!
+				model.addAttribute("list", list);
+		//
+		//List<CoffeeVO> datas=coffeeService.getCoffeeList(cvo);
+		//model.addAttribute("datas", datas); // Model을 이용하여 전달할 정보를 저장!
 		//selectAll로 해당 나라의 리스트를 보내야함
 
 		return "shop.jsp";

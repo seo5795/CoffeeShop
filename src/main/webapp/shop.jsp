@@ -108,7 +108,7 @@
 
 			<div class="row product-lists" style="justify-content: center">
 				<c:choose>
-					<c:when test="${datas == null or fn:length(datas)==0 }">
+					<c:when test="${list == null or fn:length(list)==0 }">
 						<c:choose>
 							<c:when test="${mName==null}">
 								<div style="text-align: center">
@@ -124,7 +124,7 @@
 					</c:when>
 
 					<c:otherwise>
-						<c:forEach var="cp" items="${datas}">
+						<c:forEach var="cp" items="${list}">
 							<div class="col-lg-4 col-md-6 text-center">
 								<div class="single-product-item">
 									<div class="product-image">
@@ -144,8 +144,33 @@
 				</c:choose>
 
 			</div>
-
-			<div class="row">
+			
+			<!-- 2. 이전버튼 활성화 여부 -->
+			
+				<div class="row">
+				<div class="col-lg-12 text-center">
+					<div class="pagination-wrap">
+						<ul>
+	               				<c:if test="${pageVO.prev }">
+                        			<li><a href="shop.do?pageNum=${pageVO.startPage - 1 }&amount=${pageVO.amount}&ccategory=${cvo.ccategory}&keyword=${cvo.keyword}&cprice=${cvo.cprice}&cprice2=${cvo.cprice2}">이전</a></li>
+								</c:if>
+								                        		
+                        		<!-- 1. 페이지번호 처리 -->
+                        		<c:forEach var="num" begin="${pageVO.startPage }" end="${pageVO.endPage }">
+	                        		<li  class="${pageVO.pageNum eq num ? 'active' : '' }">
+	                        		<a href="shop.do?pageNum=${num}&amount=${pageVO.amount}&ccategory=${cvo.ccategory}&keyword=${cvo.keyword}&cprice=${cvo.cprice}&cprice2=${cvo.cprice2}">${num}</a></li>
+                        		</c:forEach>
+                        		
+                        		<!-- 3. 다음버튼 활성화 여부 -->
+                        		<c:if test="${pageVO.next }">
+                        			<li><a href="shop.do?pageNum=${pageVO.endPage + 1 }&amount=${pageVO.amount}&ccategory=${cvo.ccategory}&keyword=${cvo.keyword}&cprice=${cvo.cprice}&cprice2=${cvo.cprice2}">다음</a></li>
+                        		</c:if>
+                        			</ul>
+					</div>
+				</div>
+			</div>
+			
+			<!-- <div class="row">
 				<div class="col-lg-12 text-center">
 					<div class="pagination-wrap">
 						<ul>
@@ -157,38 +182,11 @@
 						</ul>
 					</div>
 				</div>
-			</div>
+			</div> -->
 		</div>
 	</div>
 	<!-- end products -->
 
-	<!-- logo carousel -->
-	<div class="logo-carousel-section">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12">
-					<div class="logo-carousel-inner">
-						<div class="single-logo-item">
-							<img src="assets/img/company-logos/1.png" alt="">
-						</div>
-						<div class="single-logo-item">
-							<img src="assets/img/company-logos/2.png" alt="">
-						</div>
-						<div class="single-logo-item">
-							<img src="assets/img/company-logos/3.png" alt="">
-						</div>
-						<div class="single-logo-item">
-							<img src="assets/img/company-logos/4.png" alt="">
-						</div>
-						<div class="single-logo-item">
-							<img src="assets/img/company-logos/5.png" alt="">
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- end logo carousel -->
 
 	<!-- footer -->
 	<jsp:include page="common/footer.jsp" />

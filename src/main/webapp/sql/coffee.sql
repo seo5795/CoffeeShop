@@ -47,6 +47,20 @@ INSERT INTO MEMBER (MID,MPW,MNAME,MPOINT) VALUES ('ADMIN1','1234','작은티모'
 SELECT A.CID, A.CNAME, A.CCOUNTRY,A.CNUM,A.CPRICE,A.CCONTENT,A.CPIC FROM COFFEE A, SUBSCRIBE B WHERE A.CID = B.CID AND B.MID = 'admin';
 SELECT * FROM (SELECT ROWNUM AS RNUM, A.* FROM COFFEE A) WHERE RNUM BETWEEN 0 AND 7;
 SELECT count(*) as listCnt FROM COFFEE;
+SELECT * FROM (SELECT ROWNUM AS RNUM, A.* FROM COFFEE A)  WHERE CPRICE>=1000 AND CPRICE<=10000 AND RNUM BETWEEN 0 AND 6 ORDER BY CPRICE DESC;
 
+SELECT * FROM (                                               
+SELECT A.*, rownum AS rnum FROM (                             
+SELECT                                                        
+      A.CID, A.CNAME, A.CCOUNTRY,A.CNUM,A.CPRICE,A.CCONTENT,A.CPIC        
+FROM COFFEE A                                           
+     ,SUBSCRIBE B                                            
+WHERE A.CPRICE>=1000 AND A.CPRICE<=10000
+	) A                                      
+ ) B                                                       
+WHERE rnum between 1 and 6;
+ 
+SELECT count(*) as listCnt FROM COFFEE WHERE CCOUNTRY LIKE '%에%';
 
-
+ 
+ SELECT * FROM (SELECT a.*, rownum RNUM FROM (SELECT * FROM COFFEE WHERE CNAME LIKE '%에%' ORDER by CID desc  ) a ) WHERE rnum between 1 and 6;

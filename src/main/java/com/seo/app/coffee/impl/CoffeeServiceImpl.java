@@ -5,27 +5,55 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.seo.app.coffee.CartVO;
 import com.seo.app.coffee.CoffeeService;
 import com.seo.app.coffee.CoffeeVO;
+import com.seo.app.coffee.PageVO;
 
 @Service("coffeeService")
 public class CoffeeServiceImpl implements CoffeeService{
 	
 	@Autowired
-	private CoffeeDAO2 coffeeDAO;
+	private CoffeeDAO coffeeDAO;
 	@Override
 	public boolean insertCoffee(CoffeeVO vo) {
 		return coffeeDAO.insertCoffee(vo);
 	}
 
+
+
 	@Override
-	public CoffeeVO getCoffee(CoffeeVO vo) {
-		return coffeeDAO.getCoffee(vo);
+	public List<CoffeeVO> getCoffeeList(CoffeeVO vo,PageVO pvo) {
+		return coffeeDAO.getCoffeeList(vo,pvo);
 	}
 
 	@Override
-	public List<CoffeeVO> getCoffeeList(CoffeeVO vo) {
-		return coffeeDAO.getCoffeeList(vo);
+	public boolean updateCoffeeList(List<CartVO> cartlist) {
+//		for (int i = 0; i < cartlist.size(); i++) {
+//		if(coffeeDAO.getCart(cartlist.get(i)));
+//		}
+		return false;
+	}//결제시 수량 체크-> 오류 발생을 어떻게 시켜야하는지에 대한 고민
+
+	@Override
+	public int getBoardListCnt(CoffeeVO vo) {
+		// TODO Auto-generated method stub
+		return coffeeDAO.getBoardListCnt(vo);
 	}
+
+
+
+	@Override
+	public CoffeeVO getCoffee(CoffeeVO vo) {
+		// TODO Auto-generated method stub
+		return coffeeDAO.getCoffee(vo);
+	}
+
+//	@Override
+//	public List<CoffeeVO> getCoffeePage(int pageNum, int amount) {
+//		// TODO Auto-generated method stub
+//		return coffeeDAO.getCoffeePage(pageNum, amount);
+//	}
+	
 
 }

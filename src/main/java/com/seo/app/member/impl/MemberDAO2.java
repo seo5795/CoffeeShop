@@ -41,10 +41,13 @@ public class MemberDAO2 {
 		return false;
 	}
 
-	public boolean pay(MemberVO vo, List<CartVO> cartlist) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+//	public boolean pay(MemberVO vo, List<CartVO> cartlist) {
+//		for (int i = 0; i <  cartlist.size(); i++) {
+//			
+//		}
+//		Object[] args= {vo.get
+//		return false;
+//	}
 
 }
 
