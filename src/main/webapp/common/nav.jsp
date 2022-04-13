@@ -9,7 +9,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-						<div class="top-header-area" id="sticker">
+	<div class="top-header-area" id="sticker">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12 col-sm-12 text-center">
@@ -26,26 +26,17 @@
 						<nav class="main-menu">
 							<ul>
 								
-								<li><a href="about.jsp">About</a></li>
-								<li><a href="#">Pages</a>
-									<ul class="sub-menu">
-										<li><a href="404.html">404 page</a></li>
-										<li><a href="about.jsp">About</a></li>
-										<li><a href="contact.jsp">Contact</a></li>
-										<li><a href="news.jsp">News</a></li>
-									</ul>
-								</li>
-								<li><a href="news.jsp">News</a>
-									<ul class="sub-menu">
-										<li><a href="news.jsp">News</a></li>
-										<li><a href="single-news.jsp">Single News</a></li>
-									</ul>
-								</li>
-								<li><a href="contact.jsp">Contact</a></li>
+								
 								<li><a href="shop.do">Coffee</a>
 									<ul class="sub-menu">
 										<li><a href="shop.do">Shop</a></li>
-										<li><a href="checkout.do">결제</a></li>		
+										<c:choose>
+											<c:when test="${mName!=null}">
+											<!-- 로그인 했을 시 결제 버튼 생성 -->
+										<li><a href="checkout.do">결제</a></li>
+											</c:when>
+										</c:choose>
+												
 										<c:choose>
 											<c:when test="${mRank==1}">
 											<!-- session에서 설정한 사용자 권한 -->

@@ -39,12 +39,9 @@
 				</div>
 				<div class="col-lg-3 col-md-6">
 					<div class="footer-box subscribe">
-						<h2 class="widget-title">Subscribe</h2>
-						<p>Subscribe to our mailing list to get the latest updates.</p>
-						<form action="index.html">
-							<input type="email" placeholder="Email">
-							<button type="submit"><i class="fas fa-paper-plane"></i></button>
-						</form>
+						<h2 class="widget-title">Source</h2>
+						<p>깃허브 주소입니다.</p>
+						<a href="https://github.com/seo5795/CoffeeShop.git"><img alt="깃" src="assets/social_git.png" style="width:50px"></a>
 					</div>
 				</div>
 			</div>

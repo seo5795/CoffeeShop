@@ -53,8 +53,8 @@ public class CoffeeDAO {
 
 	//=============================================================
 	//페이징
-	private final String COFFEE_PAGINATION= "SELECT * FROM (SELECT ROWNUM AS RNUM, A.* FROM COFFEE A ORDER BY CID DESC)"
-			+" WHERE RNUM BETWEEN ? + 1  AND ?";
+	private final String COFFEE_PAGINATION= "SELECT * FROM (SELECT ROWNUM AS RNUM, A.* FROM (SELECT * FROM COFFEE A ORDER BY CID DESC)A)"
+			+ "	WHERE RNUM BETWEEN ? + 1  AND ?";
 	private final String COFFEELIST_CNT ="SELECT count(*) as listCnt FROM COFFEE";
 
 

@@ -106,7 +106,7 @@
 				</div>
 			</div>
 
-			<div class="row product-lists" style="justify-content: center">
+			<div class="row" style="justify-content: center">
 				<c:choose>
 					<c:when test="${list == null or fn:length(list)==0 }">
 						<c:choose>

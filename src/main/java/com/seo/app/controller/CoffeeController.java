@@ -79,7 +79,7 @@ public class CoffeeController {
 					cvo.setCpic("assets/coffee/default.jpg");
 				}
 				coffeeService.insertBoard(cvo);
-				return "redirect:main.do"; 
+				return "main.do"; 
 
 
 	}
@@ -190,7 +190,7 @@ public class CoffeeController {
 
 		session.setAttribute("cartlist", cartlist); // Model을 이용하여 전달할 정보를 저장!
 		session.setAttribute("total", total);
-		return "redirect:cart.jsp";
+		return "cart.jsp";
 	}
 	@RequestMapping(value="/cartRemove.do")
 	public String cartRemove(CoffeeVO cvo,HttpSession session) {
@@ -205,7 +205,7 @@ public class CoffeeController {
 		}
 			
 		//selectAll로 해당 나라의 리스트를 보내야함
-		return "redirect:cart.do";
+		return "cart.do";
 	}
 	
 	@RequestMapping(value="/cartupdate.do")
@@ -222,7 +222,7 @@ public class CoffeeController {
 		}
 		System.out.println("cartvo2: "+cartvo.getNumber());
 		//selectAll로 해당 나라의 리스트를 보내야함
-		return "redirect:cart.do";
+		return "cart.do";
 	}
 	//----------------------장바구니 끝------------------
 
@@ -257,7 +257,7 @@ public class CoffeeController {
 	//----------------------모든 페이지 검색을 위한 get방식 처리-----------
 	@RequestMapping(value="/checkout.do", method=RequestMethod.GET)
 	public String checkout() {
-		return "redirect:checkout.jsp";
+		return "checkout.jsp";
 	}
 
 
