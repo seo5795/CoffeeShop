@@ -2,24 +2,48 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
 	<context:component-scan
 		base-package="com.seo.app.controller" />
-	
-		<!-- 파일업로드 설정 -->
-<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-	<property name="maxUploadSize" value="-1" />
-</bean>
+
+	<!-- 메세지 파일을 읽어오는 클래스 -->
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<!-- 메시지 패키지 안에 있는 a* 파일을 읽어달라 -->
+				<!-- message.a_ko.properties 메세지의 확장자는 무조건 properties이기때문에 굳이 붙이지 않는다. -->
+				<!-- 지역정보를 추출해서 사용하기 때문에 .ko등이 필요없다 -->
+				<!-- 오류를 최소화하기 위한 방법 -->
+				<value>message.a</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="localeResolver"
+		class="org.springframework.web.servlet.i18n.SessionLocaleResolver" />
+	<mvc:interceptors>
+		<bean
+			class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+			<!-- lang파라미터 변수에 접속정보를 준다면 그에 따라 바뀌게 하겠습니다. -->
+			<property name="paramName" value="lang" />
+		</bean>
+	</mvc:interceptors>
+
+
+	<!-- 파일업로드 설정 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="-1" />
+	</bean>
 
 	<!-- 에러페이지 설정 -->
-	<!-- <bean id="exceptionResolver"
+	<bean id="exceptionResolver"
 		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
 		<property name="exceptionMappings">
 			<props>
-				<prop key="java.lang.IllegalArgumentException">
-					error/error.jsp
-				</prop>
 				<prop key="java.lang.NullPointerException">
 					error/error.jsp
 				</prop>
@@ -27,6 +51,6 @@
 		</property>
 		<property name="defaultErrorView" value="error/error.jsp" />
 	</bean>
- -->
+
 
 </beans>

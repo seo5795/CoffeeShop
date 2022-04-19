@@ -114,17 +114,15 @@ a.bordered-btn {
 								</button>
 								<!-- 로그인 한 회원들만 구독버튼 활성화 -->
 								<c:if test="${mName!=null}">
-									
-									<c:choose>
-										<c:when test="${ sdata.mid == null}">
-											<a href="subscribe.do?cid=${data.cid}&mid=${mId}"
+									<c:if test="${sdata.mid == null}">
+									<a href="subscribe.do?cid=${data.cid}&mid=${mId}"
 												class="bordered-btn">구독하기</a>
-										</c:when>
-										<c:otherwise>	
-												<a href="delsubscribe.do?cid=${data.cid}&mid=${mId}"
+									</c:if>
+									<c:if test="${sdata.mid != null}">
+									<a href="delsubscribe.do?cid=${data.cid}&mid=${mId}"
 													class="bordered-btn">구독취소</a>
-										</c:otherwise>
-									</c:choose>
+									</c:if>
+										
 								</c:if>
 
 							</form>

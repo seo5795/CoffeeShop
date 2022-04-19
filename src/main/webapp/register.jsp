@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -10,7 +11,7 @@
 	<meta name="description" content="Responsive Bootstrap4 Shop Template, Created by Imran Hossain from https://imransdesign.com/">
 
 	<!-- title -->
-	<title>커피저장소 | 회원가입</title>
+	<title><spring:message code="message.register.title" /></title>
 
 	<!-- favicon -->
 	<link rel="shortcut icon" type="image/png" href="assets/img/favicon.png">
@@ -61,7 +62,7 @@
 					<div class="hero-text">
 						<div class="hero-text-tablecell">
 							<p class="subtitle">Fresh & Organic</p>
-							<h1>회원가입</h1>
+							<h1><spring:message code="message.register.signup" /></h1>
 							<div class="hero-btns">
 								<a href="shop.html" class="boxed-btn">Fruit Collection</a>
 								<a href="contact.html" class="bordered-btn">Contact Us</a>
@@ -82,13 +83,13 @@
 			<div class="row">
 				<div class="col-lg-8 offset-lg-2 text-center">
 					<div class="section-title">	
-						<h3><span class="orange-text">커피저장소</span> 회원가입</h3>
+						<h3><span class="orange-text"><spring:message code="message.register.com" /></span> <spring:message code="message.register.signup" /></h3>
 						 <div class="billing-address-form">
 						<form action="register.do" method="post">
-							<p><input type="text" placeholder="ID를 입력하세요" name="mid" required></p> 
-							<p><input type="password" placeholder="PW를 입력하세요" name="mpw" required> </p>
-							<p><input type="text" placeholder="이름을 입력하세요" name="mname" required> </p>
-							<p><input type = "submit" value="회원가입"></p>
+							<p><input type="text" placeholder="<spring:message code="message.register.id" />" name="mid" required></p> 
+							<p><input type="password" placeholder="<spring:message code="message.register.pw" />" name="mpw" required> </p>
+							<p><input type="text" placeholder="<spring:message code="message.register.name" />" name="mname" required> </p>
+							<p><input type = "submit" value="<spring:message code="message.register.signup" />"></p>
 						</form>
 						</div>
 						

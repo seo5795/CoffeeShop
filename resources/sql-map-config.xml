@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<!-- 별칭,별명,Alias 설정 -->
+	<typeAliases>
+		<typeAlias type="com.seo.app.coffee.CoffeeVO" alias="coffee" />
+		<typeAlias type="com.seo.app.coffee.PageVO" alias="page" />
+		<typeAlias type="com.seo.app.coffee.CartVO" alias="cart" />
+		<typeAlias type="com.seo.app.member.MemberVO" alias="member" />
+		<!-- sql-map-config의 resultType과 alias를 일치 시킨다 -->
+	</typeAliases>
+	
+	<!-- Sql Mapper 연결 -->
+	<!-- mapping파일을 보기 위한 설정 -->
+	<mappers>
+		<mapper resource="mappings/coffee-mapping.xml"/>
+		<mapper resource="mappings/member-mapping.xml"/>
+	</mappers>
+
+	
+
+
+</configuration>

@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<title>커피저장소 | 로그인</title>
+<title><spring:message code="message.login.title" /></title>
 
 <!-- favicon -->
 	<link rel="shortcut icon" type="image/png" href="assets/img/favicon.png">
@@ -80,13 +81,13 @@
 
          <br>
          <div class="name">
-            <h1>커피저장소-로그인</h1>
+            <h1><spring:message code="message.login.title" /></h1>
          </div>
-
+			<div style="text-align:center"><a href="login.do?lang=ko">한국어</a> | <a href="login.do?lang=en">English</a></div>
          <form id="login" action="login.do" class="input-group" method="post">
             <input type="text" class="input-field" name="mid"
-               placeholder="사용자 ID" required> <input
-               type="password" class="input-field" name="mpw" placeholder="비밀번호"
+               placeholder="<spring:message code="message.login.user" /> ID" required> <input
+               type="password" class="input-field" name="mpw" placeholder="<spring:message code="message.login.pw" />"
                required>
             <!-- <div>
                <input type="checkbox" class="checkbox">Remember Password
@@ -94,11 +95,10 @@
             <br><br>
             
             <div style="text-align: center">
-               <button class="submit">로그인</button>
+               <button class="submit"><spring:message code="message.login.login" /></button>
             </div>
-            <div class="btn2">
-               <a href="findPw.jsp" class="findPw">비밀번호 찾기</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-               <a href="register.jsp" class="register">회원가입</a>
+            <div style="text-align:center">
+               <a href="register.do" class="register"><spring:message code="message.login.sign" /></a>
             </div>
          </form>
       </div>

@@ -49,19 +49,40 @@ SELECT * FROM (SELECT ROWNUM AS RNUM, A.* FROM COFFEE A) WHERE RNUM BETWEEN 0 AN
 SELECT count(*) as listCnt FROM COFFEE;
 SELECT * FROM (SELECT ROWNUM AS RNUM, A.* FROM COFFEE A)  WHERE CPRICE>=1000 AND CPRICE<=10000 AND RNUM BETWEEN 0 AND 6 ORDER BY CPRICE DESC;
 
-SELECT * FROM (                                               
-SELECT A.*, rownum AS rnum FROM (                             
-SELECT                                                        
-      A.CID, A.CNAME, A.CCOUNTRY,A.CNUM,A.CPRICE,A.CCONTENT,A.CPIC        
-FROM COFFEE A                                           
-     ,SUBSCRIBE B                                            
-WHERE A.CPRICE>=1000 AND A.CPRICE<=10000
-	) A                                      
- ) B                                                       
-WHERE rnum between 1 and 6;
+
+--ROWNUM= 결과물에 순차적인 번호
+--rownum 은 order by 가 이루어지기 전에 이루어진다
+SELECT ROWNUM AS RNUM, CNAME, CPRICE FROM COFFEE ORDER BY CPRICE;
  
-SELECT count(*) as listCnt FROM COFFEE WHERE CCOUNTRY LIKE '%에%';
+--where조건 다음에 rownum이 할당되기때문에 rownum을 where조건에서 사용할 수 없다.
+SELECT ROWNUM AS RNUM, A.* FROM 
+		(SELECT CNAME, CPRICE FROM COFFEE WHERE CNAME LIKE '%에%' ORDER by CPRICE desc) A;
+        WHERE ROWNUM--between 1 and 17;    
+
+SELECT ROWNUM AS RNUM, A.* FROM 
+		(SELECT CNAME, CPRICE FROM COFFEE ORDER BY CPRICE DESC) A
+		 WHERE ROWNUM BETWEEN 1 AND 5;
+
+SELECT * FROM (SELECT a.*, rownum RNUM FROM
+(SELECT * FROM COFFEE WHERE CNAME LIKE '%에%' ORDER by CPRICE desc)
+			 A ) WHERE RNUM between 1 and 17;
+
+SELECT ROWNUM AS RNUM, A.* FROM 
+		(SELECT CNAME, CPRICE FROM COFFEE ORDER BY CPRICE DESC) A
+		 WHERE ROWNUM BETWEEN 12 AND 17;
+			 
+SELECT * FROM 
+	(SELECT ROWNUM RNUM, A.*FROM
+	(SELECT CNAME, CPRICE FROM COFFEE ORDER BY CPRICE DESC)
+			 A WHERE ROWNUM<=5)X WHERE X.RNUM >=1;
+
+SELECT * FROM (SELECT ROWNUM RNUM, A.* FROM
+(SELECT CNAME, CPRICE FROM COFFEE WHERE CNAME LIKE '%에%' ORDER BY CPRICE DESC)
+			 A WHERE ROWNUM<=5)X WHERE X.RNUM >=1;
+	
+			 
+			 
 SELECT * FROM (SELECT ROWNUM AS RNUM, A.* FROM (SELECT * FROM COFFEE A ORDER BY CID DESC)A)
 			 WHERE RNUM BETWEEN  1  AND 6;
  SELECT ROWNUM AS RNUM, A.* FROM COFFEE A ORDER BY RNUM DESC;
- SELECT * FROM (SELECT a.*, rownum RNUM FROM (SELECT * FROM COFFEE WHERE CNAME LIKE '%에%' ORDER by CID desc  ) a ) WHERE rnum between 1 and 6;
+

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="MemberDAO">
+
+	<insert id="insertMember">
+		<![CDATA[
+			INSERT INTO MEMBER (MID,MPW,MNAME)
+			VALUES (#{mid},#{mpw},#{mname})
+		]]>
+	</insert>
+	
+	<select id="getMember" resultType="member">
+		<![CDATA[
+			SELECT * FROM MEMBER WHERE MID=#{mid}
+		]]>
+	</select>
+
+	<update id="pay">
+		<![CDATA[
+			UPDATE MEMBER SET MPOINT=#{mpoint} WHERE MID=#{mid}
+		]]>
+	</update>
+</mapper>

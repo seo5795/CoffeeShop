@@ -209,9 +209,8 @@
 		var index = document.querySelectorAll(".index");
 		
 		function myListener(obj) {
-			console.log(form);
-			console.log(obj.id);
-			alert(obj.value);
+			//console.log(form);
+			//console.log(obj.id);
 			form[obj.id].submit();			
 		};
 		

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- CoffeeDAO와 mapping됨 -->
+<mapper namespace="CoffeeDAO">
+
+
+	<resultMap type="coffee" id="cnt">
+		<result property="cnum" column="listcnt" />
+	</resultMap>
+	
+	
+	
+	
+	<!-- 커피상품추가 -->
+	<insert id="insertCoffee">
+      <![CDATA[
+         INSERT INTO COFFEE 
+         (CID,CNAME,CCOUNTRY,CNUM,CPRICE,CCONTENT,CPIC)
+		 VALUES (
+		 (SELECT NVL(MAX(CID),1000)+1 from COFFEE)
+		 ,#{cname}
+		 ,#{ccountry}
+		 ,#{cnum}
+		 ,#{cprice}
+		 ,#{ccontent}
+		 ,#{cpic}
+		 )
+      ]]>
+	</insert>
+
+	<!-- 커피 상세 보기 -->
+	<select id="getCoffee" resultType="coffee">
+	<![CDATA[
+		SELECT * FROM COFFEE WHERE CID=#{cid}
+	]]>
+	</select>
+
+	<!-- ==================결제 사용======================= -->
+	<!-- 수량 확인 -->
+	<select id="getCoffeeListCnt" resultMap="cnt">
+		SELECT COUNT(*) AS LISTCNT
+		FROM COFFEE
+		WHERE 1=1
+		<if test="ccategory=='cname'">
+			AND CNAME LIKE '%'||#{keyword}||'%'
+		</if>
+		<if test="ccategory=='ccountry'">
+			AND CCOUNTRY LIKE '%'||#{keyword}||'%'
+		</if>
+		<if test="ccategory=='cprice'">
+			<![CDATA[AND CPRICE>=#{cprice} AND CPRICE<=#{cprice2}]]>
+		</if>
+	</select>
+	
+	<!-- 커피 수량 업데이트 -->
+	<update id="updateBoard">
+		<![CDATA[
+			UPDATE COFFEE SET CNUM=CNUM-#{number} WHERE CID=#{cid}
+		]]>
+	</update>
+	
+	<select id="checkCnum">
+		<![CDATA[
+			SELECT CNUM FROM COFFEE WHERE CID=#{cid}
+		]]>
+	</select>
+	
+	<!-- =================검색===================== -->
+	<select id="getCoffeeList" resultType="coffee" parameterType="map">
+		SELECT * FROM
+		(SELECT ROWNUM AS RNUM, A.* FROM
+		(SELECT * FROM COFFEE
+		WHERE 1=1
+		<if test="vo.ccategory=='cname'">
+			AND CNAME LIKE '%'||#{vo.keyword}||'%' 
+		</if>
+		<if test="vo.ccategory=='ccountry'">
+			AND CCOUNTRY LIKE '%'||#{vo.keyword}||'%' 
+		</if>
+		<if test="vo.ccategory=='cprice'">
+			<![CDATA[AND CPRICE>=#{vo.cprice} 
+			AND CPRICE<=#{vo.cprice2}]]>
+		</if>
+		<![CDATA[
+			ORDER BY CID DESC)
+			A WHERE ROWNUM <= #{first})
+			X WHERE X.RNUM >= #{second}+1
+		]]>
+	</select>
+
+
+
+
+
+
+
+
+
+</mapper>

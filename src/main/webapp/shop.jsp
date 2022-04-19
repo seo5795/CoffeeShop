@@ -94,8 +94,8 @@
 							<form action="shop.do" mehtod="post">
 								<input type="hidden" value="cprice" name="ccategory">
 								<h3>가격검색</h3>
-								<input type="number" name="cprice" min="0" max="100000">
-								~ <input type="number" name="cprice2" min="0" max="100000">
+								<input type="number" name="cprice" min="0" max="100000" required>
+								~ <input type="number" name="cprice2" min="0" max="100000" required>
 								<input type="submit" value="검색">
 							</form>
 
@@ -135,7 +135,7 @@
 									<p class="product-price">
 										<span>Per Kg</span>${cp.cprice}
 									</p>
-									<a href="cart.html" class="cart-btn"><i
+									<a href="cart.do?cid=${cp.cid}&number=1" class="cart-btn"><i
 										class="fas fa-shopping-cart"></i> Add to Cart</a>
 								</div>
 							</div>
